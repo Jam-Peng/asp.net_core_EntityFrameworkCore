@@ -1,0 +1,6 @@
+@createWebApi_DominModels_HostAddress = http://localhost:5251
+
+GET {{createWebApi_DominModels_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
