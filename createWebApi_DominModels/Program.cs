@@ -1,4 +1,5 @@
 using createWebApi_DominModels.Data;
+using createWebApi_DominModels.Mappings;
 using createWebApi_DominModels.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,9 @@ builder.Services.AddDbContext<WebApiSampleDbContext>(options =>
 //將區域儲存庫與SQL儲存庫一起注入
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>(); //使用外部資料庫
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>(); //當使用內存資料庫時改換這一個
+
+//將AutoMapper套件注入
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
