@@ -26,7 +26,7 @@ namespace createWebApi_DominModels.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //為Difficulties 難易度資料表，定義列表數據(Easy, Medium, Hard)
+            //為Difficulties 難易度資料表，定義預設列表數據(Easy, Medium, Hard)
             var difficulties = new List<Difficulty>()
             {
                 new Difficulty()

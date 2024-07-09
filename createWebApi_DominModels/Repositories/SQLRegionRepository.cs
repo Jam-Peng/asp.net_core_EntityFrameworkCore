@@ -16,17 +16,19 @@ namespace createWebApi_DominModels.Repositories
             this.dbContext = dbContext;
         }
 
+        // 取全部資料
         public async Task<List<Region>> GetAllAsync()
         {
-            //將資料從資料庫中取出
             return await dbContext.Regions.ToListAsync();
         }
 
+        // 取單一筆資料
         public async Task<Region?> GetByIdAsync(Guid id)
         {
             return await dbContext.Regions.FirstOrDefaultAsync(region => region.Id == id);
         }
 
+        // 建立一筆資料
         public async Task<Region> CreateAsync(Region region)
         {
             await dbContext.Regions.AddAsync(region);
@@ -34,6 +36,7 @@ namespace createWebApi_DominModels.Repositories
             return region;
         }
 
+        // 更新一筆資料
         public async Task<Region?> UpdateAsync(Guid id, Region region)
         {
             var existRegion = await dbContext.Regions.FirstOrDefaultAsync(region => region.Id == id);
@@ -51,6 +54,7 @@ namespace createWebApi_DominModels.Repositories
             return existRegion;
         }
 
+        // 刪除一筆資料
         public async Task<Region?> DeleteAsync(Guid id)
         {
             var existRegion = dbContext.Regions.FirstOrDefault(region => region.Id == id);

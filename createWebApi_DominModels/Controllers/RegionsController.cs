@@ -30,7 +30,7 @@ namespace createWebApi_DominModels.Controllers
 
 
         /// <summary>
-        /// GET ALL REGIONS 取全部資料
+        /// GetAll() REGIONS 取全部資料
         /// GET https://localhost:port_number/api/Regions
         /// </summary>
         /// <returns></returns>
