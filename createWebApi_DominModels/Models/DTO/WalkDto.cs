@@ -16,6 +16,5 @@
         public RegionDto? Region { get; set; }
 
         public DifficultyDto? Difficulty { get; set; }
-
     }
 }
