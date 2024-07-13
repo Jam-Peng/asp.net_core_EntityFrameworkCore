@@ -32,17 +32,24 @@ namespace createWebApi_DominModels.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddWalkRequestDto addWalkRequestDto)
         {
+            //驗證新增資料格式
+            if (ModelState.IsValid)
+            {
+                //使用 AutoMapper處理建立 DTO model
+                var walkModel = mapper.Map<Walk>(addWalkRequestDto);
 
-            //使用 AutoMapper處理建立 DTO model
-            var walkModel = mapper.Map<Walk>(addWalkRequestDto);
+                //使用 SQL語句儲存庫的方式
+                walkModel = await walkRepository.CreateAsync(walkModel);
 
-            //使用 SQL語句儲存庫的方式
-            walkModel = await walkRepository.CreateAsync(walkModel);
+                //使用AutoMapper處理傳給使用者資料的DTO
+                var WalkDto = mapper.Map<WalkDto>(walkModel);
 
-            //使用AutoMapper處理傳給使用者資料的DTO
-            var WalkDto = mapper.Map<WalkDto>(walkModel);
-
-            return Ok(WalkDto);
+                return Ok(WalkDto);
+            }
+            else 
+            { 
+                return BadRequest(); 
+            }
         }
 
 
@@ -99,21 +106,29 @@ namespace createWebApi_DominModels.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWalkRequestDto updateWalkRequestDto)
         {
-            //使用AutoMapper處理更新DTO model(和建立的概念一樣)
-            var walkModel = mapper.Map<Walk>(updateWalkRequestDto);
-
-            //使用SQL儲存庫的方式操作更新資料庫
-            walkModel = await walkRepository.UpdateAsync(id, walkModel);
-
-            if (walkModel == null)
+            //驗證更新資料格式
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                //使用AutoMapper處理更新DTO model(和建立的概念一樣)
+                var walkModel = mapper.Map<Walk>(updateWalkRequestDto);
+
+                //使用SQL儲存庫的方式操作更新資料庫
+                walkModel = await walkRepository.UpdateAsync(id, walkModel);
+
+                if (walkModel == null)
+                {
+                    return NotFound();
+                }
+
+                //使用AutoMapper處理DTO
+                var walkDto = mapper.Map<WalkDto>(walkModel);
+
+                return Ok(walkDto);
             }
-
-            //使用AutoMapper處理DTO
-            var walkDto = mapper.Map<WalkDto>(walkModel);
-
-            return Ok(walkDto);
+            else
+            {
+                return BadRequest();
+            }
         }
 
 
