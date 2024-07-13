@@ -49,13 +49,17 @@ namespace createWebApi_DominModels.Controllers
 
         /// <summary>
         /// GetAll() Walks 取全部資料
+        /// GET: /api/walks?filterOn=Name&filterQuery=Track
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // public async Task<IActionResult> GetAll()
+
+        //改成可篩選資料的方式
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
         {
             //使用 SQL語句儲存庫的方式
-            var walks = await walkRepository.GetAllAsync();
+            var walks = await walkRepository.GetAllAsync(filterOn, filterQuery);
 
             //使用 AutoMapper 處理 DTO
             var walkDto = mapper.Map<List<WalkDto>>(walks);

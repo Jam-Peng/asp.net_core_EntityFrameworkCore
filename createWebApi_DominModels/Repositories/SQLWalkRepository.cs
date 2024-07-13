@@ -27,9 +27,27 @@ namespace createWebApi_DominModels.Repositories
 
 
         // 取全部資料【使用Include("資料表") 函式，將相關資料表的資料取回】
-        public async Task<List<Walk>> GetAllAsync()
+        // public async Task<List<Walk>> GetAllAsync()
+        //改成可篩選資料的方式
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
         {
-            return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+            //原本回傳取得全部資料(沒有需要篩選的參數)
+            //return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+
+
+            //更改邏輯提供-篩選、排序、分頁使用
+            var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+
+            //Filtering 篩選 - 是否有查詢的參數
+            if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if(filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = walks.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+
+            return await walks.ToListAsync();
         }
 
 

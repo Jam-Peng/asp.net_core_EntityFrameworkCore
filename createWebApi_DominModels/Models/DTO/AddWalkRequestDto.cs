@@ -13,7 +13,7 @@ namespace createWebApi_DominModels.Models.DTO
         public required string Description { get; set; }
 
         [Required]
-        [Range(0, 50)]
+        [Range(0, 500)]
         public double LengthInKm { get; set; }
 
         public string? WalkImageUrl { get; set; }

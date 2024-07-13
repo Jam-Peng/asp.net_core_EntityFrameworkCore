@@ -7,7 +7,7 @@ namespace createWebApi_DominModels.Models.DTO
     {
         [Required]
         [MinLength(3, ErrorMessage = "最少必須輸入3個字元的代碼")]
-        [MaxLength(10, ErrorMessage = "代碼超過10個字元的限制")]
+        [MaxLength(20, ErrorMessage = "代碼超過20個字元的限制")]
         public required string Code { get; set; }
 
         [Required]
