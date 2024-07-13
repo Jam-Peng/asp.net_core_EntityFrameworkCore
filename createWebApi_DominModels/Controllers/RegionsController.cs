@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using createWebApi_DominModels.CustomActionFilters;
 using createWebApi_DominModels.Data;
 using createWebApi_DominModels.Models.Domain;
 using createWebApi_DominModels.Models.DTO;
@@ -114,49 +115,40 @@ namespace createWebApi_DominModels.Controllers
         /// <param name="addRegionRequestDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateModel]  //使用客製化驗證
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            //驗證新增資料格式
-            if(ModelState.IsValid)
-            {
-                //建立DTO model
-                //var regionModel = new Region
-                //{
-                //    Code = addRegionRequestDto.Code,
-                //    Name = addRegionRequestDto.Name,
-                //    RegionImageUrl = addRegionRequestDto.RegionImageUrl,
-                //};
+            //建立DTO model
+            //var regionModel = new Region
+            //{
+            //    Code = addRegionRequestDto.Code,
+            //    Name = addRegionRequestDto.Name,
+            //    RegionImageUrl = addRegionRequestDto.RegionImageUrl,
+            //};
 
-                //改成使用AutoMapper處理建立DTO model
-                var regionModel = mapper.Map<Region>(addRegionRequestDto);
+            //改成使用AutoMapper處理建立DTO model
+            var regionModel = mapper.Map<Region>(addRegionRequestDto);
 
 
-                //將資料新增到資料庫(資料庫中的資料表新增regionModel這筆物件資料)
-                //await dbContext.Regions.AddAsync(regionModel);
-                //await dbContext.SaveChangesAsync();
-                //改成使用SQL儲存庫的方式
-                regionModel = await regionRepository.CreateAsync(regionModel);
+            //將資料新增到資料庫(資料庫中的資料表新增regionModel這筆物件資料)
+            //await dbContext.Regions.AddAsync(regionModel);
+            //await dbContext.SaveChangesAsync();
+            //改成使用SQL儲存庫的方式
+            regionModel = await regionRepository.CreateAsync(regionModel);
 
-                //回傳給使用的資訊，使用DTO
-                //var regionDto = new RegionDto
-                //{
-                //    Id = regionModel.Id,
-                //    Code = regionModel.Code,
-                //    Name = regionModel.Name,
-                //    RegionImageUrl = regionModel.RegionImageUrl,
-                //};
+            //回傳給使用的資訊，使用DTO
+            //var regionDto = new RegionDto
+            //{
+            //    Id = regionModel.Id,
+            //    Code = regionModel.Code,
+            //    Name = regionModel.Name,
+            //    RegionImageUrl = regionModel.RegionImageUrl,
+            //};
 
-                //改成使用AutoMapper處理DTO
-                var regionDto = mapper.Map<RegionDto>(regionModel);
+            //改成使用AutoMapper處理DTO
+            var regionDto = mapper.Map<RegionDto>(regionModel);
 
-
-                return CreatedAtAction(nameof(GetById), new { id = regionModel.Id }, regionDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-
+            return CreatedAtAction(nameof(GetById), new { id = regionModel.Id }, regionDto); 
         }
 
 
@@ -168,73 +160,66 @@ namespace createWebApi_DominModels.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]  //使用客製化驗證
         public async Task<IActionResult> update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
-            //驗證更新資料格式
-            if (ModelState.IsValid)
+            //重新建立DTO物件映射
+            //var regionDominModel = new Region
+            //{
+            //    Code = updateRegionRequestDto.Code,
+            //    Name = updateRegionRequestDto.Name,
+            //    RegionImageUrl = updateRegionRequestDto.RegionImageUrl
+            //};
+
+            //改成使用AutoMapper處理更新DTO model(和建立的概念一樣)
+            var regionDominModel = mapper.Map<Region>(updateRegionRequestDto);
+
+
+            //從資料庫中取得該筆ID的資料 
+            //var region = await dbContext.Regions.FirstOrDefaultAsync(region => region.Id == id);
+
+            //改成使用SQL儲存庫的方式
+            regionDominModel = await regionRepository.UpdateAsync(id, regionDominModel);
+
+
+            //if (region == null)
+            //{
+            //    return NotFound();
+            //}
+            //改成使用SQL儲存庫的方式判斷
+            if (regionDominModel == null)
             {
-                //重新建立DTO物件映射
-                //var regionDominModel = new Region
-                //{
-                //    Code = updateRegionRequestDto.Code,
-                //    Name = updateRegionRequestDto.Name,
-                //    RegionImageUrl = updateRegionRequestDto.RegionImageUrl
-                //};
-
-                //改成使用AutoMapper處理更新DTO model(和建立的概念一樣)
-                var regionDominModel = mapper.Map<Region>(updateRegionRequestDto);
-
-
-                //從資料庫中取得該筆ID的資料 
-                //var region = await dbContext.Regions.FirstOrDefaultAsync(region => region.Id == id);
-
-                //改成使用SQL儲存庫的方式
-                regionDominModel = await regionRepository.UpdateAsync(id, regionDominModel);
-
-
-                //if (region == null)
-                //{
-                //    return NotFound();
-                //}
-                //改成使用SQL儲存庫的方式判斷
-                if (regionDominModel == null)
-                {
-                    return NotFound();
-                }
-
-                //更新資料
-                //region.Code = updateRegionRequestDto.Code;
-                //region.Name = updateRegionRequestDto.Name;
-                //region.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
-
-                //await dbContext.SaveChangesAsync();
-
-                //convert 回傳給使用者資料 使用DTO
-                //var regionDto = new RegionDto
-                //{
-                //    Id = region.Id,
-                //    Code = region.Code,
-                //    Name = region.Name,
-                //    RegionImageUrl = region.RegionImageUrl,
-                //};
-
-                //var regionDto = new RegionDto
-                //{
-                //    Id = regionDominModel.Id,
-                //    Code = regionDominModel.Code,
-                //    Name = regionDominModel.Name,
-                //    RegionImageUrl = regionDominModel.RegionImageUrl,
-                //};
-
-                //改成使用AutoMapper處理DTO
-                var regionDto = mapper.Map<RegionDto>(regionDominModel);
-
-                return Ok(regionDto);
+                return NotFound();
             }
-            else 
-            { 
-                return BadRequest(ModelState); 
-            }
+
+            //更新資料
+            //region.Code = updateRegionRequestDto.Code;
+            //region.Name = updateRegionRequestDto.Name;
+            //region.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
+
+            //await dbContext.SaveChangesAsync();
+
+            //convert 回傳給使用者資料 使用DTO
+            //var regionDto = new RegionDto
+            //{
+            //    Id = region.Id,
+            //    Code = region.Code,
+            //    Name = region.Name,
+            //    RegionImageUrl = region.RegionImageUrl,
+            //};
+
+            //var regionDto = new RegionDto
+            //{
+            //    Id = regionDominModel.Id,
+            //    Code = regionDominModel.Code,
+            //    Name = regionDominModel.Name,
+            //    RegionImageUrl = regionDominModel.RegionImageUrl,
+            //};
+
+            //改成使用AutoMapper處理DTO
+            var regionDto = mapper.Map<RegionDto>(regionDominModel);
+
+            return Ok(regionDto);
         }
 
 
