@@ -28,8 +28,9 @@ namespace createWebApi_DominModels.Repositories
 
         // 取全部資料【使用Include("資料表") 函式，將相關資料表的資料取回】
         // public async Task<List<Walk>> GetAllAsync()
-        //改成可篩選資料的方式
-        public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
+        //改成可篩選關鍵字、排序資料的方式
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true)
         {
             //原本回傳取得全部資料(沒有需要篩選的參數)
             //return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
@@ -38,12 +39,25 @@ namespace createWebApi_DominModels.Repositories
             //更改邏輯提供-篩選、排序、分頁使用
             var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
 
-            //Filtering 篩選 - 是否有查詢的參數
-            if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            //Filtering 篩選關鍵字 - 判斷是否有查詢的參數
+            if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
             {
                 if(filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
                 {
                     walks = walks.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+
+            //Sorting 排序處理，可以對 Name 和 LengthInKm 屬性做排序
+            if (string.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                if(sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.Name): walks.OrderByDescending(x => x.Name);
+                }
+                else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
                 }
             }
 

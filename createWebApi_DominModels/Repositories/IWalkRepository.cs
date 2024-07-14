@@ -9,8 +9,9 @@ namespace createWebApi_DominModels.Repositories
 
         // 取全部資料
         // Task<List<Walk>> GetAllAsync();
-        //改成可篩選資料的方式
-        Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null);
+        //改成可篩選關鍵字、排序資料的方式
+        Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null, 
+            string? sortBy = null, bool isAscending = true);
 
         // 取單筆資料
         Task<Walk?> GetByIdAsync(Guid id);

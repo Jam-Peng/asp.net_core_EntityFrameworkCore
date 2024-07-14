@@ -8,7 +8,7 @@ namespace createWebApi_DominModels.Mappings
     {
         public AutoMapperProfiles()
         {
-            //CreateMap<資料來源, 資料目的地>
+            //CreateMap<資料來源(進), 資料目的地(出)>
             //RegionsController API - 處理回傳"取的所有資料"和"單筆資料"
             CreateMap<Region, RegionDto>().ReverseMap();
 
