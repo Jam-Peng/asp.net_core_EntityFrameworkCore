@@ -30,7 +30,7 @@ namespace createWebApi_DominModels.Repositories
         // public async Task<List<Walk>> GetAllAsync()
         //改成可篩選關鍵字、排序資料的方式
         public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null,
-            string? sortBy = null, bool isAscending = true)
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
             //原本回傳取得全部資料(沒有需要篩選的參數)
             //return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
@@ -61,7 +61,12 @@ namespace createWebApi_DominModels.Repositories
                 }
             }
 
-            return await walks.ToListAsync();
+            //Pagination 分頁處理
+            var skipResults = (pageNumber - 1) * pageSize;
+
+            //return await walks.ToListAsync();
+            //調整成使用可分頁的處理
+            return await walks.Skip(skipResults).Take(pageSize).ToListAsync();
         }
 
 
