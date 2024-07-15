@@ -5,7 +5,8 @@ namespace createWebApi_DominModels.Data
 {
     public class WebApiSampleDbContext : DbContext
     {
-        public WebApiSampleDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        //public WebApiSampleDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public WebApiSampleDbContext(DbContextOptions<WebApiSampleDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }

@@ -4,6 +4,7 @@ using createWebApi_DominModels.Data;
 using createWebApi_DominModels.Models.Domain;
 using createWebApi_DominModels.Models.DTO;
 using createWebApi_DominModels.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace createWebApi_DominModels.Controllers
     //https://localhost:Port_Number/api/Regions
     [Route("api/[controller]")]
     [ApiController]
+    //加入身分驗證Microsoft.AspNetCore.Authorization;
+    [Authorize]
     public class RegionsController : ControllerBase
     {
         private readonly WebApiSampleDbContext dbContext;
