@@ -2,6 +2,7 @@ using createWebApi_DominModels.Data;
 using createWebApi_DominModels.Mappings;
 using createWebApi_DominModels.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -33,6 +34,25 @@ builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();             //
 
 //將AutoMapper套件注入
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
+
+//建立身分驗證的Package
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Walks")
+    .AddEntityFrameworkStores<WalksAuthDbContext>()
+    .AddDefaultTokenProviders();
+
+//配置身分驗證的選項
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;   //至少一個唯一的字符串
+});
 
 
 //注入Microsoft.AspNetCore.Authentication.JwtBearer套件

@@ -20,8 +20,8 @@ namespace createWebApi_DominModels.Data
         {
             base.OnModelCreating(builder);
 
-            var readerRoleId = "b2c76880-10ed-4342-896f-ca9f41a28eee";  //可讀取的使用者Id
-            var writerRoleId = "45c6d434-8521-44dd-8c25-a7a564730cb4";  //可寫入的使用者Id
+            var readerRoleId = "b2c76880-10ed-4342-896f-ca9f41a28eee";  //可讀取資料的使用者權限Id
+            var writerRoleId = "45c6d434-8521-44dd-8c25-a7a564730cb4";  //可寫入資料的使用者權限Id
 
             //建立不同的使用者(可讀取、可寫入)
             var roles = new List<IdentityRole>
