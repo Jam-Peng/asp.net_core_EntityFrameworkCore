@@ -30,6 +30,7 @@ builder.Services.AddDbContext<WalksAuthDbContext>(options =>
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();         //連線外部 Region 資料表的語句
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();             //連線外部 Walk 資料庫的語句
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();  //當使用內存資料庫時改換這一個
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();              //建立token用
 
 
 //將AutoMapper套件注入
