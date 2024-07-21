@@ -75,7 +75,7 @@ namespace createWebApi_DominModels.Controllers
                 //確認帳號、密碼正確後
                 if (checkPasswordResult)
                 {
-                    //取得使用者的腳色權限
+                    //取得使用者的角色權限
                     var roles = await userManager.GetRolesAsync(user);
 
                     if (roles != null)

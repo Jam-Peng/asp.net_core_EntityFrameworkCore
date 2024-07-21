@@ -239,7 +239,7 @@ namespace createWebApi_DominModels.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer,Reader")]  //授權Reader和Writer兩個腳色都可進行刪除
+        [Authorize(Roles = "Writer,Reader")]  //授權Reader和Writer兩個角色都可進行刪除
         public async Task<IActionResult> delete([FromRoute] Guid id)
         {
             //var region = await dbContext.Regions.FirstOrDefaultAsync(region => region.Id == id);
