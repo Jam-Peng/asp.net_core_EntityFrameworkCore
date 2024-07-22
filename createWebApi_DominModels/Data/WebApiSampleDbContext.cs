@@ -12,11 +12,16 @@ namespace createWebApi_DominModels.Data
         }
 
         /// <summary>
-        /// 定義資料表模型 (要建立的三個資料表)
+        /// 定義資料表模型 (建立的三個資料表)
         /// </summary>
         public DbSet<Difficulty> Difficulties { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Walk> Walks { get; set; }
+
+        /// <summary>
+        /// 上傳圖片資料表
+        /// </summary>
+        public DbSet<Image> Images { get; set; }
 
 
         /// <summary>

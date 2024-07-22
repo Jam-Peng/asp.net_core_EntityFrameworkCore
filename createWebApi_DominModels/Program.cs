@@ -7,12 +7,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//在服務或其他非控制器類中訪問 HTTP 請求信息
+builder.Services.AddHttpContextAccessor();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen(); 
@@ -24,7 +30,7 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",
-        In = ParameterLocation.Header,
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = JwtBearerDefaults.AuthenticationScheme
     });
@@ -60,9 +66,10 @@ builder.Services.AddDbContext<WalksAuthDbContext>(options =>
 
 //將區域儲存庫與SQL儲存庫一起注入
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();         //連線外部 Region 資料表的語句
-builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();             //連線外部 Walk 資料庫的語句
+builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();             //連線外部 Walk 資料表的語句
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();  //當使用內存資料庫時改換這一個
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();              //建立token用
+builder.Services.AddScoped<IImageRepository, LoaclImageRepository>();         //連結外部 Image 資料表的語句
 
 
 //將AutoMapper套件注入
@@ -118,6 +125,13 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//調整可以使用靜態文件
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+});
 
 app.MapControllers();
 
