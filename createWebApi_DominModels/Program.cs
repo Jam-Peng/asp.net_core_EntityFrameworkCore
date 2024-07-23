@@ -8,11 +8,23 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+//使用Serilog套件 建立 log 日誌
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/Walks_Log.txt", rollingInterval: RollingInterval.Minute)  //給日誌紀錄一個路徑和名稱、建立新日誌時間
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+
+// Add services to the container.
 builder.Services.AddControllers();
 
 //在服務或其他非控制器類中訪問 HTTP 請求信息
@@ -126,7 +138,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-//調整可以使用靜態文件
+//調整可以使用靜態文件 - 透過url可以將圖片顯示
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),

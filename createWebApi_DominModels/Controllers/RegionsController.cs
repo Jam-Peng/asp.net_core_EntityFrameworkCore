@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace createWebApi_DominModels.Controllers
 {
@@ -23,13 +24,17 @@ namespace createWebApi_DominModels.Controllers
         private readonly WebApiSampleDbContext dbContext;
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<RegionsController> logger;
 
-        public RegionsController(WebApiSampleDbContext dbContext, IRegionRepository regionRepository, 
-            IMapper mapper)
+        public RegionsController(WebApiSampleDbContext dbContext, 
+            IRegionRepository regionRepository, 
+            IMapper mapper,
+            ILogger<RegionsController> logger)
         {
             this.dbContext = dbContext;
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
 
@@ -39,34 +44,54 @@ namespace createWebApi_DominModels.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Reader")]  //授權只有讀取的權限
+        //[Authorize(Roles = "Reader")]  //授權只有讀取的權限 ()
         public async Task<IActionResult> GetALL()
         {
-            //將資料從資料庫中取出
-            //var regions = await dbContext.Regions.ToListAsync();
-            //改成使用SQL儲存庫的方式
-            var regions = await regionRepository.GetAllAsync();
+            try
+            {   
+                throw new Exception("這是一個自訂一異常");
+
+                //紀錄開始被呼叫取得所有資料 API
+                //logger.LogInformation("取得所有 Regions 資料 GetALL() API 被呼叫");
+                //logger.LogWarning("這是一個警告產生時的日誌紀錄");
+                //logger.LogError("這是一個錯誤產生時的日誌紀錄");
 
 
-            //轉換使用DTO方式 Map Models 傳遞需要的資料給前端
-            //var regionsDto = new List<RegionDto>();
-            //foreach (var region in regions)
-            //{
-            //    regionsDto.Add(new RegionDto()
-            //    {
-            //        Id = region.Id,
-            //        Code = region.Code,
-            //        Name = region.Name,
-            //        RegionImageUrl = region.RegionImageUrl,
-            //    });
-            //}
+                //將資料從資料庫中取出
+                //var regions = await dbContext.Regions.ToListAsync();
+                //改成使用SQL儲存庫的方式
+                var regions = await regionRepository.GetAllAsync();
 
-            //改成使用AutoMapper處理DTO
-            var regionsDto = mapper.Map<List<RegionDto>>(regions);
+                //記錄從資料庫取得所有資料
+                logger.LogInformation($"完成從資料庫中取得Regions資料: {JsonSerializer.Serialize(regions)}");
 
 
-            //return Ok(regions); 原本傳遞資料方式改成下面使用DTO的方式傳遞
-            return Ok(regionsDto);
+                //轉換使用DTO方式 Map Models 傳遞需要的資料給前端
+                //var regionsDto = new List<RegionDto>();
+                //foreach (var region in regions)
+                //{
+                //    regionsDto.Add(new RegionDto()
+                //    {
+                //        Id = region.Id,
+                //        Code = region.Code,
+                //        Name = region.Name,
+                //        RegionImageUrl = region.RegionImageUrl,
+                //    });
+                //}
+
+                //改成使用AutoMapper處理DTO
+                var regionsDto = mapper.Map<List<RegionDto>>(regions);
+
+
+                //return Ok(regions); 原本傳遞資料方式改成下面使用DTO的方式傳遞
+                return Ok(regionsDto);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                throw;
+            }
+
         }
 
 

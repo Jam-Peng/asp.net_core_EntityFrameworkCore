@@ -6,6 +6,7 @@ using createWebApi_DominModels.Models.DTO;
 using createWebApi_DominModels.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace createWebApi_DominModels.Controllers
 {
@@ -61,9 +62,29 @@ namespace createWebApi_DominModels.Controllers
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
+            //如果不使用全局log日誌寫法的作法，每一個API中都要寫一樣的 try/catch
+            //try
+            //{
+            //    throw new Exception("這是一個測試異常"); //正常不需要寫這段
+
+            //    //使用 SQL語句儲存庫的方式
+            //    var walks = await walkRepository.GetAllAsync(filterOn, filterQuery,
+            //        sortBy, isAscending ?? true, pageNumber, pageSize);
+
+            //    //使用 AutoMapper 處理 DTO
+            //    var walkDto = mapper.Map<List<WalkDto>>(walks);
+
+            //    return Ok(walkDto);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Problem("出現問題", null, (int)HttpStatusCode.InternalServerError);
+            //}
+
+
             //使用 SQL語句儲存庫的方式
-            var walks = await walkRepository.GetAllAsync(filterOn, filterQuery, 
-                sortBy, isAscending?? true, pageNumber, pageSize);
+            var walks = await walkRepository.GetAllAsync(filterOn, filterQuery,
+                sortBy, isAscending ?? true, pageNumber, pageSize);
 
             //使用 AutoMapper 處理 DTO
             var walkDto = mapper.Map<List<WalkDto>>(walks);
