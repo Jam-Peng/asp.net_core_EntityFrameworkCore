@@ -86,6 +86,9 @@ namespace createWebApi_DominModels.Controllers
             var walks = await walkRepository.GetAllAsync(filterOn, filterQuery,
                 sortBy, isAscending ?? true, pageNumber, pageSize);
 
+            //log 紀錄 Exception 異常測試用
+            //throw new Exception("這是一個新的 Exception");
+
             //使用 AutoMapper 處理 DTO
             var walkDto = mapper.Map<List<WalkDto>>(walks);
 

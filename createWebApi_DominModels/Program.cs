@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
+using createWebApi_DominModels.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -130,6 +131,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//匯入處理 log 的 Middleware
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

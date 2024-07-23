@@ -49,7 +49,7 @@ namespace createWebApi_DominModels.Controllers
         {
             try
             {   
-                throw new Exception("這是一個自訂一異常");
+                //throw new Exception("這是一個測試異常日誌紀錄");
 
                 //紀錄開始被呼叫取得所有資料 API
                 //logger.LogInformation("取得所有 Regions 資料 GetALL() API 被呼叫");
