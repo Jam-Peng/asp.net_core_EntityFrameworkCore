@@ -1,20 +1,26 @@
 ﻿@model IEnumerable<WalksUI.Models.DTO.RegionDto>
 
 @{
+    ViewData["Title"] = "所有地區";
 }
 
 <div>
     <div>
         <span class="fs-2">Regions</span>
+
+        <div class="text-end mb-3">
+            <a class="btn btn-sm btn-primary" asp-area="" asp-controller="Regions" asp-action="Create">
+                <span>新增景點</span>
+            </a>
+        </div>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Code</th>
                 <th>Name</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +33,5 @@
                 </tr>
             }
         </tbody>
-        
     </table>
 </div>

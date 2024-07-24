@@ -1,0 +1,43 @@
+﻿@model WalksUI.Models.CreateRegionViewModel
+
+@{
+	ViewData["Title"] = "建立景點";
+}
+
+<div>
+	<div>
+		<span class="fs-2">@ViewData["Title"]</span>
+	</div>
+
+	<div>
+		<span class="fs-5">景點表單</span>
+		<form method="post">
+			<div class="pb-3">
+				<label class="form-label">Code</label>
+				<input type="text" class="form-control" placeholder="景點代碼" asp-for="Code"/>
+
+			</div>
+
+			<div class="pb-3">
+				<label class="form-label">Name</label>
+				<input type="text" class="form-control" placeholder="景點名稱" asp-for="Name"/>
+
+			</div>
+
+			<div class="pb-3">
+				<label class="form-label">Image URL</label>
+				<input type="text" class="form-control" placeholder="照片連結" asp-for="RegionImageUrl" />
+
+			</div>
+
+			<div class="row">
+				<div class="col-6 col-md-3">
+					<button type="submit" class="form-control btn btn-primary btn-sm">新增</button>
+				</div>
+				<div class="col-6 col-md-3">
+					<a class="form-control btn btn-secondary btn-sm" asp-controller="Regions" asp-action="Index">回首頁</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
