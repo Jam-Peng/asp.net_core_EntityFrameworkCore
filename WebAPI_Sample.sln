@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "createWebApi_DominModels", "createWebApi_DominModels\createWebApi_DominModels.csproj", "{93A7899D-8340-4562-BFE7-1D61260F35CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "createWebApi_DominModels", "createWebApi_DominModels\createWebApi_DominModels.csproj", "{93A7899D-8340-4562-BFE7-1D61260F35CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalksUI", "WalksUI\WalksUI.csproj", "{30B9CA2C-6076-45C7-8D11-C2C55BBA29B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{93A7899D-8340-4562-BFE7-1D61260F35CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A7899D-8340-4562-BFE7-1D61260F35CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A7899D-8340-4562-BFE7-1D61260F35CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30B9CA2C-6076-45C7-8D11-C2C55BBA29B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30B9CA2C-6076-45C7-8D11-C2C55BBA29B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30B9CA2C-6076-45C7-8D11-C2C55BBA29B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30B9CA2C-6076-45C7-8D11-C2C55BBA29B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

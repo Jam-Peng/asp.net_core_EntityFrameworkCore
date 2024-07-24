@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WalksUI.Models.DTO.RegionDto>
+
+@{
+}
+
+<div>
+    <div>
+        <span class="fs-2">Regions</span>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var region in Model)
+            {
+                <tr>
+                    <td>@region.Id</td>
+                    <td>@region.Code</td>
+                    <td>@region.Name</td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+</div>
