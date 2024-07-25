@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using WalksUI.Models;
@@ -97,7 +98,60 @@ namespace WalksUI.Controllers
 		}
 
 
-		//檢視要更新的一筆資料(一般檢視畫面不需要非同步)
+        /// <summary>
+        /// 取得要更新的一筆資料(連接 API)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            //建立一個發送http的物件
+            var client = httpClientFactory.CreateClient();
+
+            var response = await client.GetFromJsonAsync<RegionDto>($"https://localhost:7243/api/regions/{id.ToString()}");
+
+            if(response is not null)
+            {
+                return View(response);
+            }
+
+            return View(null);
+        }
+
+
+        /// <summary>
+        /// 進行資料更新(連接 API)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Edit(RegionDto request)
+        {
+			//建立一個發送http的物件
+			var client = httpClientFactory.CreateClient();
+
+			//建立要發送的內容和格使
+			var httpRequestMessage = new HttpRequestMessage()
+			{
+				Method = HttpMethod.Put,
+				RequestUri = new Uri($"https://localhost:7243/api/regions/{request.Id}"),
+				Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json")
+			};
+
+            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
+
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+			var response = await httpResponseMessage.Content.ReadFromJsonAsync<RegionDto>();
+
+			if (response is not null)
+			{
+				return RedirectToAction("Index", "Regions");
+			}
+
+			return View();
+		}
 
 
 	}

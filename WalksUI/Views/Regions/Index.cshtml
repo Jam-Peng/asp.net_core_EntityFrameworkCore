@@ -18,9 +18,11 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Code</th>
-                <th>Name</th>
+                <th class="col-4">ID</th>
+                <th class="col-2">Code</th>
+                <th class="col-2">景點名稱</th>
+                <th class="col-2">更新</th>
+                <th class="col-2">刪除</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +32,24 @@
                     <td>@region.Id</td>
                     <td>@region.Code</td>
                     <td>@region.Name</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-success btn-sm"
+                               asp-area="" asp-controller="Regions" asp-action="Edit" asp-route-id="@region.Id">
+                                <i class="bi bi-pencil-square"></i>
+                                <span>更新</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-danger btn-sm"
+                               asp-area="" asp-controller="Regions" asp-action="Delete" asp-route-id="@region.Id">
+                                <i class="bi bi-trash3"></i>
+                                <span>刪除</span>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -1,0 +1,52 @@
+﻿@model WalksUI.Models.DTO.RegionDto
+
+@{
+    ViewData["Title"] = "更新景點";
+}
+
+<div>
+    <div>
+        <span class="fs-2">@ViewData["Title"]</span>
+    </div>
+
+    <div>
+        @if(Model is not null)
+        {
+			<form method="post">
+				<div class="pb-3">
+					<label class="form-label">ID</label>
+					<input type="text" class="form-control" asp-for="Id" readonly/>
+				</div>
+
+				<div class="pb-3">
+					<label class="form-label">Code</label>
+					<input type="text" class="form-control" placeholder="景點代碼" asp-for="Code" />
+
+				</div>
+
+				<div class="pb-3">
+					<label class="form-label">Name</label>
+					<input type="text" class="form-control" placeholder="景點名稱" asp-for="Name" />
+
+				</div>
+
+				<div class="pb-3">
+					<label class="form-label">Image URL</label>
+					<input type="text" class="form-control" placeholder="照片連結" asp-for="RegionImageUrl" />
+
+				</div>
+
+				<img src=@Model.RegionImageUrl alt="" class="pb-3 w-50" />
+
+				<div class="row">
+					<div class="col-6 col-md-3">
+						<button type="submit" class="form-control btn btn-primary btn-sm">更新</button>
+					</div>
+					<div class="col-6 col-md-3">
+						<a class="form-control btn btn-secondary btn-sm" asp-controller="Regions" asp-action="Index">回首頁</a>
+					</div>
+				</div>
+			</form>
+        }
+    </div>
+</div>
