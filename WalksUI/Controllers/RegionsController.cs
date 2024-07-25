@@ -46,8 +46,7 @@ namespace WalksUI.Controllers
             }
             catch (Exception ex)
             {
-                //紀錄異常
-                
+                //紀錄異常 
             }
 
             return View(response);
@@ -75,8 +74,8 @@ namespace WalksUI.Controllers
 			//建立一個發送http的物件
 			var client = httpClientFactory.CreateClient();
 
-            //建立要發送的內容和格使
-            var httpRequestMessage = new HttpRequestMessage()
+			//建立要發送的內容和格式
+			var httpRequestMessage = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri("https://localhost:7243/api/regions"),
@@ -131,7 +130,7 @@ namespace WalksUI.Controllers
 			//建立一個發送http的物件
 			var client = httpClientFactory.CreateClient();
 
-			//建立要發送的內容和格使
+			//建立要發送的內容和格式
 			var httpRequestMessage = new HttpRequestMessage()
 			{
 				Method = HttpMethod.Put,
@@ -153,6 +152,32 @@ namespace WalksUI.Controllers
 			return View();
 		}
 
+
+        /// <summary>
+        /// 刪除一筆資料(連接 API)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Delete(RegionDto request)
+        {
+            try
+            {
+				//建立一個發送http的物件
+				var client = httpClientFactory.CreateClient();
+
+				var httpResponseMessage = await client.DeleteAsync($"https://localhost:7243/api/regions/{request.Id}");
+
+				httpResponseMessage.EnsureSuccessStatusCode();
+
+				return RedirectToAction("Index", "Regions");
+			}
+            catch (Exception ex)
+            {
+				//紀錄異常
+			}
+            return View("Edit");
+		}
 
 	}
 }
